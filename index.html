@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WhatsApp Web - Hosted</title>
+    <title>WhatsApp Web - 10 Accounts Launcher</title>
     <link rel="icon" href="https://static.whatsapp.net/rsrc.php/v3/yP/r/rYZqPCBaG70.png">
     <style>
         * {
@@ -14,431 +14,615 @@
         
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #111;
+            background: linear-gradient(135deg, #075E54, #128C7E);
             color: white;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         /* Header */
         .header {
-            background: #075E54;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: rgba(31, 44, 52, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 15px;
         }
         
         .logo-img {
-            width: 36px;
-            height: 36px;
+            width: 50px;
+            height: 50px;
         }
         
         .logo-text {
-            font-size: 18px;
-            font-weight: 500;
-        }
-        
-        .controls {
-            display: flex;
-            gap: 10px;
-        }
-        
-        .btn {
-            background: #128C7E;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        
-        .btn:hover {
-            background: #0d7a6d;
-            transform: translateY(-1px);
-        }
-        
-        /* Main Container */
-        .container {
-            flex: 1;
-            display: flex;
-            overflow: hidden;
-        }
-        
-        /* Sidebar */
-        .sidebar {
-            width: 280px;
-            background: #1F2C34;
-            padding: 20px;
-            overflow-y: auto;
-            border-right: 1px solid #2A3942;
-        }
-        
-        .sidebar-title {
+            font-size: 32px;
+            font-weight: 700;
             color: #00A884;
-            margin-bottom: 20px;
-            font-size: 16px;
+        }
+        
+        .subtitle {
+            color: #8696A0;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        
+        .counter {
+            font-size: 14px;
+            background: #00A884;
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        
+        /* Accounts Grid */
+        .accounts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .account-card {
+            background: #2A3942;
+            border-radius: 15px;
+            padding: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            text-align: center;
+            position: relative;
+        }
+        
+        .account-card:hover {
+            background: #374850;
+            transform: translateY(-5px);
+            border-color: #00A884;
+            box-shadow: 0 10px 20px rgba(0,168,132,0.2);
+        }
+        
+        .account-number {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background: #00A884;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
-            gap: 8px;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.3);
         }
         
-        .accounts {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 30px;
-        }
-        
-        .account {
-            background: #2A3942;
-            padding: 14px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            border: 2px solid transparent;
-        }
-        
-        .account:hover {
-            background: #374850;
-        }
-        
-        .account.active {
-            background: #2D9CDB;
-            border-color: #00A884;
+        .account-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
         }
         
         .account-name {
-            font-weight: 500;
-            margin-bottom: 4px;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: white;
         }
         
-        .account-status {
-            font-size: 12px;
+        .account-desc {
+            font-size: 14px;
             color: #8696A0;
+            margin-bottom: 15px;
         }
         
-        .account.active .account-status {
-            color: rgba(255,255,255,0.8);
+        .open-btn {
+            background: #00A884;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            width: 100%;
+            transition: background 0.3s;
         }
         
-        /* Instructions Box */
-        .instructions {
+        .open-btn:hover {
+            background: #128C7E;
+        }
+        
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .control-btn {
             background: #2A3942;
+            color: white;
+            border: none;
+            padding: 12px 25px;
             border-radius: 10px;
-            padding: 18px;
-            margin-top: 20px;
-            border-left: 4px solid #00A884;
+            cursor: pointer;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .control-btn:hover {
+            background: #374850;
+            transform: translateY(-2px);
+        }
+        
+        .control-btn.primary {
+            background: #00A884;
+        }
+        
+        .control-btn.primary:hover {
+            background: #128C7E;
+        }
+        
+        /* Instructions */
+        .instructions {
+            background: rgba(0,168,132,0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border-left: 5px solid #00A884;
         }
         
         .instructions-title {
             color: #00A884;
-            margin-bottom: 12px;
-            font-size: 15px;
+            font-size: 20px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+        }
+        
+        .instructions-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+        
+        .instructions-box {
+            background: rgba(42, 57, 66, 0.5);
+            padding: 20px;
+            border-radius: 10px;
+        }
+        
+        .instructions-box h4 {
+            color: #00A884;
+            margin-bottom: 15px;
         }
         
         .instructions-list {
-            font-size: 13px;
-            line-height: 1.5;
             color: #8696A0;
+            line-height: 1.6;
         }
         
         .instructions-list li {
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             padding-left: 5px;
-        }
-        
-        /* WhatsApp Frame */
-        .whatsapp-container {
-            flex: 1;
-            background: #0D1418;
-            position: relative;
-        }
-        
-        #whatsappFrame {
-            width: 100%;
-            height: 100%;
-            border: none;
-        }
-        
-        .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            text-align: center;
-            color: #8696A0;
         }
         
         /* Footer */
         .footer {
-            background: #1F2C34;
-            padding: 12px;
             text-align: center;
-            font-size: 11px;
-            color: #8696A0;
+            margin-top: 40px;
+            padding: 20px;
             border-top: 1px solid #2A3942;
+            color: #8696A0;
+            font-size: 13px;
         }
         
         /* Mobile Responsive */
         @media (max-width: 768px) {
-            .sidebar {
-                display: none;
+            .accounts-grid {
+                grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             }
             
-            .btn span {
-                display: none;
+            .logo-text {
+                font-size: 24px;
             }
             
-            .btn {
-                padding: 10px;
+            .controls {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .control-btn {
+                width: 100%;
+                justify-content: center;
             }
         }
         
-        /* Animations */
+        /* Scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1F2C34;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #00A884;
+            border-radius: 5px;
+        }
+        
+        /* Animation */
         @keyframes pulse {
-            0% { opacity: 0.6; }
-            50% { opacity: 1; }
-            100% { opacity: 0.6; }
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
         
-        .loading-icon {
-            animation: pulse 1.5s infinite;
-            font-size: 24px;
-            margin-bottom: 10px;
+        .pulse {
+            animation: pulse 2s infinite;
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
-    <div class="header">
-        <div class="logo">
-            <img src="https://static.whatsapp.net/rsrc.php/v3/yP/r/rYZqPCBaG70.png" alt="WhatsApp" class="logo-img">
-            <div class="logo-text">WhatsApp Web Hosted</div>
-        </div>
-        <div class="controls">
-            <button class="btn" onclick="refreshApp()">
-                <span>🔄</span>
-                <span>Refresh</span>
-            </button>
-            <button class="btn" onclick="toggleFullscreen()">
-                <span>📺</span>
-                <span>Fullscreen</span>
-            </button>
-            <button class="btn" onclick="showHelp()">
-                <span>❓</span>
-                <span>Help</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Main Content -->
     <div class="container">
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div class="sidebar-title">
-                <span>📱</span>
-                <span>Multiple Accounts</span>
+        <!-- Header -->
+        <div class="header">
+            <div class="logo">
+                <img src="https://static.whatsapp.net/rsrc.php/v3/yP/r/rYZqPCBaG70.png" alt="WhatsApp" class="logo-img">
+                <div class="logo-text">WhatsApp Web - 10 Accounts</div>
             </div>
-            
-            <div class="accounts">
-                <div class="account active" onclick="switchAccount(1)">
-                    <div class="account-name">WhatsApp Personal</div>
-                    <div class="account-status">Click to activate</div>
-                </div>
-                <div class="account" onclick="switchAccount(2)">
-                    <div class="account-name">WhatsApp Business</div>
-                    <div class="account-status">Click to activate</div>
-                </div>
-                <div class="account" onclick="switchAccount(3)">
-                    <div class="account-name">WhatsApp Family</div>
-                    <div class="account-status">Click to activate</div>
-                </div>
-                <div class="account" onclick="switchAccount(4)">
-                    <div class="account-name">WhatsApp Work</div>
-                    <div class="account-status">Click to activate</div>
-                </div>
+            <div class="subtitle">Launch and manage 10 different WhatsApp accounts</div>
+            <div class="counter">Accounts: 1 to 10</div>
+        </div>
+        
+        <!-- Controls -->
+        <div class="controls">
+            <button class="control-btn primary" onclick="openAllAccounts()">
+                <span>🚀</span>
+                <span>Open All 10 Accounts</span>
+            </button>
+            <button class="control-btn" onclick="showHelp()">
+                <span>❓</span>
+                <span>How to Use</span>
+            </button>
+            <button class="control-btn" onclick="clearSessions()">
+                <span>🧹</span>
+                <span>Clear All Sessions</span>
+            </button>
+        </div>
+        
+        <!-- Accounts Grid - Numbers 1 to 10 -->
+        <div class="accounts-grid" id="accountsGrid">
+            <!-- Account 1 to 10 will be generated by JavaScript -->
+        </div>
+        
+        <!-- Instructions -->
+        <div class="instructions">
+            <div class="instructions-title">
+                <span>📌</span>
+                <span>How to Use 10 WhatsApp Accounts:</span>
             </div>
-            
-            <div class="instructions">
-                <div class="instructions-title">
-                    <span>📌</span>
-                    <span>How to Use</span>
+            <div class="instructions-content">
+                <div class="instructions-box">
+                    <h4>🔧 Method 1: Different Browsers</h4>
+                    <ul class="instructions-list">
+                        <li>Account 1-3: Chrome (Different Profiles)</li>
+                        <li>Account 4-6: Microsoft Edge</li>
+                        <li>Account 7-8: Firefox</li>
+                        <li>Account 9-10: Brave/Opera</li>
+                    </ul>
                 </div>
-                <ul class="instructions-list">
-                    <li>1. Scan QR code with your phone</li>
-                    <li>2. Keep this tab open for messages</li>
-                    <li>3. Click accounts to switch (in different browsers)</li>
-                    <li>4. Bookmark this page (Ctrl+D)</li>
-                    <li>5. Use F11 for fullscreen</li>
-                </ul>
+                
+                <div class="instructions-box">
+                    <h4>💡 Method 2: Chrome Profiles</h4>
+                    <ul class="instructions-list">
+                        <li>Click Chrome Profile Icon → Add</li>
+                        <li>Create 10 different profiles</li>
+                        <li>Name them WhatsApp 1, WhatsApp 2, etc.</li>
+                        <li>Each profile = separate WhatsApp session</li>
+                    </ul>
+                </div>
+                
+                <div class="instructions-box">
+                    <h4>🚀 Pro Tips</h4>
+                    <ul class="instructions-list">
+                        <li>Press Alt+1 to Alt+0 for quick access</li>
+                        <li>Bookmark each WhatsApp Web page</li>
+                        <li>Use "Create shortcut" in Chrome for desktop apps</li>
+                        <li>Different phone numbers for each account</li>
+                    </ul>
+                </div>
             </div>
         </div>
-
-        <!-- WhatsApp Web -->
-        <div class="whatsapp-container">
-            <div class="loading" id="loading">
-                <div class="loading-icon">⏳</div>
-                <div>Loading WhatsApp Web...</div>
-            </div>
-            <iframe id="whatsappFrame" src="https://web.whatsapp.com" title="WhatsApp Web"></iframe>
+        
+        <!-- Footer -->
+        <div class="footer">
+            <p>WhatsApp Web 10-Account Launcher • Manage multiple WhatsApp sessions easily</p>
+            <p>Not affiliated with WhatsApp Inc. • Uses official https://web.whatsapp.com</p>
+            <p style="margin-top: 10px; font-size: 11px; opacity: 0.7;">Keyboard: Alt+1 to Alt+0 opens accounts 1-10 • Alt+A opens all</p>
         </div>
-    </div>
-
-    <!-- Footer -->
-    <div class="footer">
-        <p>Hosted WhatsApp Web • This is a wrapper for https://web.whatsapp.com • Not affiliated with WhatsApp Inc.</p>
     </div>
 
     <script>
-        // WhatsApp Frame
-        const whatsappFrame = document.getElementById('whatsappFrame');
-        const loading = document.getElementById('loading');
+        // Account data for 1 to 10
+        const accounts = [
+            { number: 1, name: "WhatsApp 1", icon: "👤", desc: "Primary Personal Account" },
+            { number: 2, name: "WhatsApp 2", icon: "💼", desc: "Business Account" },
+            { number: 3, name: "WhatsApp 3", icon: "👨‍👩‍👧‍👦", desc: "Family Account" },
+            { number: 4, name: "WhatsApp 4", icon: "🏢", desc: "Work Account" },
+            { number: 5, name: "WhatsApp 5", icon: "🛒", desc: "Shopping/Deals" },
+            { number: 6, name: "WhatsApp 6", icon: "🎮", desc: "Gaming Friends" },
+            { number: 7, name: "WhatsApp 7", icon: "📚", desc: "Study/Education" },
+            { number: 8, name: "WhatsApp 8", icon: "✈️", desc: "Travel Groups" },
+            { number: 9, name: "WhatsApp 9", icon: "🏥", desc: "Health/Doctor" },
+            { number: 10, name: "WhatsApp 10", icon: "💰", desc: "Finance/Banking" }
+        ];
         
-        // Hide loading when WhatsApp loads
-        whatsappFrame.onload = function() {
-            loading.style.display = 'none';
-            console.log('WhatsApp Web loaded successfully');
-        };
-        
-        // Show loading initially
-        loading.style.display = 'block';
-        
-        // Account Switching
-        function switchAccount(accountNum) {
-            // Update active account
-            document.querySelectorAll('.account').forEach(account => {
-                account.classList.remove('active');
+        // Generate account cards
+        function generateAccountCards() {
+            const grid = document.getElementById('accountsGrid');
+            grid.innerHTML = '';
+            
+            accounts.forEach(account => {
+                const card = document.createElement('div');
+                card.className = 'account-card';
+                card.onclick = () => openWhatsApp(account.number);
+                
+                card.innerHTML = `
+                    <div class="account-number">${account.number}</div>
+                    <div class="account-icon">${account.icon}</div>
+                    <div class="account-name">${account.name}</div>
+                    <div class="account-desc">${account.desc}</div>
+                    <button class="open-btn">Open WhatsApp ${account.number}</button>
+                `;
+                
+                grid.appendChild(card);
             });
-            event.currentTarget.classList.add('active');
-            
-            // Show loading
-            loading.style.display = 'block';
-            
-            // Force fresh load with timestamp to prevent caching
-            const timestamp = new Date().getTime();
-            whatsappFrame.src = `https://web.whatsapp.com?t=${timestamp}`;
-            
-            // Update status
-            const accountName = event.currentTarget.querySelector('.account-name').textContent;
-            console.log(`Switched to: ${accountName}`);
-            
-            // Show notification
-            showNotification(`Switched to ${accountName}`);
         }
         
-        // Refresh WhatsApp
-        function refreshApp() {
-            loading.style.display = 'block';
-            whatsappFrame.src = whatsappFrame.src;
-            showNotification('WhatsApp refreshed');
-        }
-        
-        // Fullscreen Toggle
-        function toggleFullscreen() {
-            if (!document.fullscreenElement) {
-                document.documentElement.requestFullscreen();
-                showNotification('Entered fullscreen mode (Press ESC to exit)');
-            } else {
-                if (document.exitFullscreen) {
-                    document.exitFullscreen();
-                    showNotification('Exited fullscreen mode');
+        // Open specific WhatsApp account
+        function openWhatsApp(accountNum) {
+            const account = accounts.find(acc => acc.number === accountNum);
+            
+            if (account) {
+                // Open in new tab
+                const newTab = window.open('https://web.whatsapp.com', `whatsapp_${accountNum}`);
+                
+                if (newTab) {
+                    // Focus on new tab
+                    newTab.focus();
+                    
+                    // Show notification
+                    showNotification(`✅ Opening ${account.name} in new tab`, 'success');
+                    
+                    // Save usage history
+                    saveUsageHistory(accountNum);
+                    
+                    // Update last used
+                    localStorage.setItem(`whatsapp_last_used_${accountNum}`, new Date().toISOString());
+                    
+                    // Suggest browser based on account number
+                    suggestBrowser(accountNum);
+                } else {
+                    showNotification('❌ Please allow popups for this site', 'error');
                 }
             }
         }
         
-        // Show Help
-        function showHelp() {
-            alert(`📱 WhatsApp Web Hosted - Quick Help:\n\n1. Scan QR code with your phone\n2. Use sidebar to organize accounts\n3. Keep this tab open for notifications\n4. Refresh if WhatsApp disconnects\n5. Bookmark this page for quick access\n\nShortcuts:\n• F11: Fullscreen\n• Ctrl+R: Refresh\n• Ctrl+D: Bookmark`);
+        // Open ALL 10 accounts
+        function openAllAccounts() {
+            showNotification('🚀 Opening all 10 WhatsApp accounts...', 'info');
+            
+            let delay = 0;
+            accounts.forEach(account => {
+                setTimeout(() => {
+                    window.open('https://web.whatsapp.com', `whatsapp_${account.number}`);
+                    showNotification(`Opening ${account.name}...`, 'info');
+                }, delay);
+                delay += 1000; // 1 second delay between each
+            });
+            
+            setTimeout(() => {
+                showNotification('✅ All 10 accounts opened! Use different browsers for each.', 'success');
+            }, delay + 1000);
         }
         
-        // Notification Function
-        function showNotification(message) {
-            // Create notification element
+        // Suggest browser based on account number
+        function suggestBrowser(accountNum) {
+            const browserMap = {
+                1: 'Chrome (Profile 1)',
+                2: 'Chrome (Profile 2)',
+                3: 'Chrome (Profile 3)',
+                4: 'Microsoft Edge',
+                5: 'Microsoft Edge (Profile 2)',
+                6: 'Firefox',
+                7: 'Firefox (Profile 2)',
+                8: 'Brave Browser',
+                9: 'Opera',
+                10: 'Vivaldi'
+            };
+            
+            const browser = browserMap[accountNum];
+            if (browser) {
+                setTimeout(() => {
+                    showNotification(`💡 Tip: Use ${browser} for WhatsApp ${accountNum} to keep sessions separate`, 'tip');
+                }, 2000);
+            }
+        }
+        
+        // Save usage history
+        function saveUsageHistory(accountNum) {
+            let history = JSON.parse(localStorage.getItem('whatsapp_usage_history') || '[]');
+            
+            const entry = {
+                account: accountNum,
+                timestamp: new Date().toISOString(),
+                date: new Date().toLocaleDateString(),
+                time: new Date().toLocaleTimeString()
+            };
+            
+            history.unshift(entry); // Add to beginning
+            history = history.slice(0, 20); // Keep only last 20 entries
+            
+            localStorage.setItem('whatsapp_usage_history', JSON.stringify(history));
+        }
+        
+        // Clear all sessions
+        function clearSessions() {
+            if (confirm('Clear all WhatsApp session data?\nThis will reset usage history but not delete accounts.')) {
+                // Clear usage history
+                localStorage.removeItem('whatsapp_usage_history');
+                
+                // Clear last used timestamps
+                for (let i = 1; i <= 10; i++) {
+                    localStorage.removeItem(`whatsapp_last_used_${i}`);
+                }
+                
+                showNotification('✅ All session data cleared!', 'success');
+                
+                // Reload to update UI
+                setTimeout(() => location.reload(), 1500);
+            }
+        }
+        
+        // Show help
+        function showHelp() {
+            alert(`📱 WhatsApp 10-Account Launcher - Help\n\n🔑 QUICK ACCESS:\n• Click any account card to open\n• Alt+1 to Alt+0 opens accounts 1-10\n• Alt+A opens all 10 accounts\n\n💡 BEST PRACTICES:\n1. Use different browsers/profiles for each account\n2. Bookmark each WhatsApp Web page\n3. Use Chrome's "Create shortcut" for desktop apps\n4. Different phone numbers for each account\n\n⚡ TIPS:\n• Accounts 1-3: Chrome Profiles\n• Accounts 4-5: Microsoft Edge\n• Accounts 6-7: Firefox\n• Accounts 8-10: Brave/Opera/Vivaldi`);
+        }
+        
+        // Notification system
+        function showNotification(message, type = 'info') {
+            // Remove existing notifications
+            document.querySelectorAll('.notification').forEach(el => el.remove());
+            
+            // Create notification
             const notification = document.createElement('div');
+            notification.className = 'notification';
+            
+            // Set styles based on type
+            const bgColors = {
+                'success': '#00A884',
+                'error': '#FF4444',
+                'info': '#2D9CDB',
+                'tip': '#FF9800'
+            };
+            
             notification.style.cssText = `
                 position: fixed;
                 top: 20px;
                 right: 20px;
-                background: #075E54;
+                background: ${bgColors[type] || '#2A3942'};
                 color: white;
-                padding: 12px 20px;
-                border-radius: 8px;
-                z-index: 1000;
-                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                padding: 15px 25px;
+                border-radius: 10px;
+                z-index: 10000;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.3);
                 animation: slideIn 0.3s ease;
+                font-weight: 500;
+                max-width: 350px;
+                border-left: 5px solid ${type === 'success' ? '#4CAF50' : type === 'error' ? '#FF3333' : type === 'tip' ? '#FF9800' : '#2D9CDB'};
             `;
             
             // Add animation
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes slideIn {
-                    from { transform: translateX(100%); opacity: 0; }
-                    to { transform: translateX(0); opacity: 1; }
-                }
-                @keyframes fadeOut {
-                    from { opacity: 1; }
-                    to { opacity: 0; }
-                }
-            `;
-            document.head.appendChild(style);
+            if (!document.querySelector('#notificationStyle')) {
+                const style = document.createElement('style');
+                style.id = 'notificationStyle';
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                    @keyframes fadeOut {
+                        from { opacity: 1; }
+                        to { opacity: 0; }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
             
-            notification.textContent = message;
+            notification.innerHTML = `📱 ${message}`;
             document.body.appendChild(notification);
             
-            // Remove after 3 seconds
+            // Remove after 4 seconds
             setTimeout(() => {
                 notification.style.animation = 'fadeOut 0.5s ease';
                 setTimeout(() => {
-                    document.body.removeChild(notification);
+                    if (notification.parentNode) {
+                        document.body.removeChild(notification);
+                    }
                 }, 500);
-            }, 3000);
+            }, 4000);
         }
         
-        // Auto-refresh every 30 minutes to prevent timeout
-        setInterval(() => {
-            console.log('Auto-refresh to keep session alive');
-            refreshApp();
-        }, 30 * 60 * 1000); // 30 minutes
-        
-        // Keyboard Shortcuts
-        document.addEventListener('keydown', (e) => {
-            // F11 for fullscreen
-            if (e.key === 'F11') {
-                e.preventDefault();
-                toggleFullscreen();
-            }
-            // Ctrl+R to refresh
-            if (e.ctrlKey && e.key === 'r') {
-                e.preventDefault();
-                refreshApp();
-            }
-            // Ctrl+D to bookmark
-            if (e.ctrlKey && e.key === 'd') {
-                showNotification('Bookmark this page to save it!');
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Alt + 1 to 0 for accounts 1-10
+            if (e.altKey) {
+                if (e.key >= '1' && e.key <= '9') {
+                    e.preventDefault();
+                    openWhatsApp(parseInt(e.key));
+                } else if (e.key === '0') {
+                    e.preventDefault();
+                    openWhatsApp(10);
+                } else if (e.key.toLowerCase() === 'a') {
+                    e.preventDefault();
+                    openAllAccounts();
+                } else if (e.key.toLowerCase() === 'h') {
+                    e.preventDefault();
+                    showHelp();
+                } else if (e.key.toLowerCase() === 'c') {
+                    e.preventDefault();
+                    clearSessions();
+                }
             }
         });
         
-        // Initial notification
-        setTimeout(() => {
-            showNotification('📱 WhatsApp Web Hosted Ready! Scan QR code to start.');
-        }, 2000);
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Generate account cards
+            generateAccountCards();
+            
+            // Show welcome message
+            setTimeout(() => {
+                showNotification('🚀 Welcome! Click any account or press Alt+1 to Alt+0 to open WhatsApp', 'info');
+            }, 1000);
+            
+            // Show last used accounts
+            setTimeout(() => {
+                let lastUsed = [];
+                for (let i = 1; i <= 10; i++) {
+                    if (localStorage.getItem(`whatsapp_last_used_${i}`)) {
+                        lastUsed.push(i);
+                    }
+                }
+                
+                if (lastUsed.length > 0) {
+                    showNotification(`📊 Previously used: Accounts ${lastUsed.join(', ')}`, 'tip');
+                }
+            }, 3000);
+        });
     </script>
 </body>
 </html>
