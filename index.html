@@ -21,28 +21,29 @@
             flex-direction: column;
         }
         
+        /* Header */
         .header {
             background: #075E54;
-            padding: 15px 20px;
+            padding: 12px 20px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.4);
         }
         
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         
-        .logo img {
-            width: 40px;
-            height: 40px;
+        .logo-img {
+            width: 36px;
+            height: 36px;
         }
         
-        .logo h1 {
-            font-size: 20px;
+        .logo-text {
+            font-size: 18px;
             font-weight: 500;
         }
         
@@ -51,186 +52,393 @@
             gap: 10px;
         }
         
-        button {
+        .btn {
             background: #128C7E;
             color: white;
             border: none;
-            padding: 8px 15px;
-            border-radius: 5px;
+            padding: 8px 16px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 14px;
-            transition: background 0.3s;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
         
-        button:hover {
+        .btn:hover {
             background: #0d7a6d;
+            transform: translateY(-1px);
         }
         
+        /* Main Container */
         .container {
             flex: 1;
             display: flex;
             overflow: hidden;
         }
         
+        /* Sidebar */
         .sidebar {
-            width: 300px;
+            width: 280px;
             background: #1F2C34;
             padding: 20px;
             overflow-y: auto;
+            border-right: 1px solid #2A3942;
         }
         
-        .whatsapp-frame {
+        .sidebar-title {
+            color: #00A884;
+            margin-bottom: 20px;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .accounts {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        
+        .account {
+            background: #2A3942;
+            padding: 14px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 2px solid transparent;
+        }
+        
+        .account:hover {
+            background: #374850;
+        }
+        
+        .account.active {
+            background: #2D9CDB;
+            border-color: #00A884;
+        }
+        
+        .account-name {
+            font-weight: 500;
+            margin-bottom: 4px;
+        }
+        
+        .account-status {
+            font-size: 12px;
+            color: #8696A0;
+        }
+        
+        .account.active .account-status {
+            color: rgba(255,255,255,0.8);
+        }
+        
+        /* Instructions Box */
+        .instructions {
+            background: #2A3942;
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 20px;
+            border-left: 4px solid #00A884;
+        }
+        
+        .instructions-title {
+            color: #00A884;
+            margin-bottom: 12px;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .instructions-list {
+            font-size: 13px;
+            line-height: 1.5;
+            color: #8696A0;
+        }
+        
+        .instructions-list li {
+            margin-bottom: 8px;
+            padding-left: 5px;
+        }
+        
+        /* WhatsApp Frame */
+        .whatsapp-container {
             flex: 1;
             background: #0D1418;
+            position: relative;
         }
         
-        iframe {
+        #whatsappFrame {
             width: 100%;
             height: 100%;
             border: none;
         }
         
-        .account-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        
-        .account-btn {
-            background: #2A3942;
-            padding: 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s;
-            text-align: left;
-        }
-        
-        .account-btn:hover {
-            background: #374850;
-        }
-        
-        .account-btn.active {
-            background: #2D9CDB;
-        }
-        
-        .footer {
-            background: #1F2C34;
-            padding: 10px;
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             text-align: center;
-            font-size: 12px;
             color: #8696A0;
         }
         
+        /* Footer */
+        .footer {
+            background: #1F2C34;
+            padding: 12px;
+            text-align: center;
+            font-size: 11px;
+            color: #8696A0;
+            border-top: 1px solid #2A3942;
+        }
+        
+        /* Mobile Responsive */
         @media (max-width: 768px) {
             .sidebar {
                 display: none;
             }
+            
+            .btn span {
+                display: none;
+            }
+            
+            .btn {
+                padding: 10px;
+            }
+        }
+        
+        /* Animations */
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        .loading-icon {
+            animation: pulse 1.5s infinite;
+            font-size: 24px;
+            margin-bottom: 10px;
         }
     </style>
 </head>
 <body>
+    <!-- Header -->
     <div class="header">
         <div class="logo">
-            <img src="https://static.whatsapp.net/rsrc.php/v3/yP/r/rYZqPCBaG70.png" alt="WhatsApp">
-            <h1>WhatsApp Web Hosted</h1>
+            <img src="https://static.whatsapp.net/rsrc.php/v3/yP/r/rYZqPCBaG70.png" alt="WhatsApp" class="logo-img">
+            <div class="logo-text">WhatsApp Web Hosted</div>
         </div>
         <div class="controls">
-            <button onclick="refreshWhatsApp()">🔄 Refresh</button>
-            <button onclick="openFullscreen()">📺 Fullscreen</button>
+            <button class="btn" onclick="refreshApp()">
+                <span>🔄</span>
+                <span>Refresh</span>
+            </button>
+            <button class="btn" onclick="toggleFullscreen()">
+                <span>📺</span>
+                <span>Fullscreen</span>
+            </button>
+            <button class="btn" onclick="showHelp()">
+                <span>❓</span>
+                <span>Help</span>
+            </button>
         </div>
     </div>
-    
+
+    <!-- Main Content -->
     <div class="container">
+        <!-- Sidebar -->
         <div class="sidebar">
-            <h3 style="margin-bottom: 15px; color: #00A884;">Multiple Accounts</h3>
-            <div class="account-list">
-                <div class="account-btn active" onclick="switchAccount(1)">
-                    WhatsApp 1 (Personal)
+            <div class="sidebar-title">
+                <span>📱</span>
+                <span>Multiple Accounts</span>
+            </div>
+            
+            <div class="accounts">
+                <div class="account active" onclick="switchAccount(1)">
+                    <div class="account-name">WhatsApp Personal</div>
+                    <div class="account-status">Click to activate</div>
                 </div>
-                <div class="account-btn" onclick="switchAccount(2)">
-                    WhatsApp 2 (Business)
+                <div class="account" onclick="switchAccount(2)">
+                    <div class="account-name">WhatsApp Business</div>
+                    <div class="account-status">Click to activate</div>
                 </div>
-                <div class="account-btn" onclick="switchAccount(3)">
-                    WhatsApp 3 (Family)
+                <div class="account" onclick="switchAccount(3)">
+                    <div class="account-name">WhatsApp Family</div>
+                    <div class="account-status">Click to activate</div>
                 </div>
-                <div class="account-btn" onclick="switchAccount(4)">
-                    WhatsApp 4 (Work)
+                <div class="account" onclick="switchAccount(4)">
+                    <div class="account-name">WhatsApp Work</div>
+                    <div class="account-status">Click to activate</div>
                 </div>
             </div>
             
-            <div style="margin-top: 30px; padding: 15px; background: #2A3942; border-radius: 8px;">
-                <h4 style="color: #00A884; margin-bottom: 10px;">📌 Instructions</h4>
-                <p style="font-size: 12px; line-height: 1.4; color: #8696A0;">
-                    1. Scan QR code with your phone<br>
-                    2. Keep this tab open for notifications<br>
-                    3. Use sidebar to switch accounts<br>
-                    4. Bookmark this page for quick access
-                </p>
+            <div class="instructions">
+                <div class="instructions-title">
+                    <span>📌</span>
+                    <span>How to Use</span>
+                </div>
+                <ul class="instructions-list">
+                    <li>1. Scan QR code with your phone</li>
+                    <li>2. Keep this tab open for messages</li>
+                    <li>3. Click accounts to switch (in different browsers)</li>
+                    <li>4. Bookmark this page (Ctrl+D)</li>
+                    <li>5. Use F11 for fullscreen</li>
+                </ul>
             </div>
         </div>
-        
-        <div class="whatsapp-frame">
+
+        <!-- WhatsApp Web -->
+        <div class="whatsapp-container">
+            <div class="loading" id="loading">
+                <div class="loading-icon">⏳</div>
+                <div>Loading WhatsApp Web...</div>
+            </div>
             <iframe id="whatsappFrame" src="https://web.whatsapp.com" title="WhatsApp Web"></iframe>
         </div>
     </div>
-    
+
+    <!-- Footer -->
     <div class="footer">
         <p>Hosted WhatsApp Web • This is a wrapper for https://web.whatsapp.com • Not affiliated with WhatsApp Inc.</p>
     </div>
 
     <script>
-        // Switch between WhatsApp accounts
+        // WhatsApp Frame
+        const whatsappFrame = document.getElementById('whatsappFrame');
+        const loading = document.getElementById('loading');
+        
+        // Hide loading when WhatsApp loads
+        whatsappFrame.onload = function() {
+            loading.style.display = 'none';
+            console.log('WhatsApp Web loaded successfully');
+        };
+        
+        // Show loading initially
+        loading.style.display = 'block';
+        
+        // Account Switching
         function switchAccount(accountNum) {
-            const iframe = document.getElementById('whatsappFrame');
-            
-            // Update active button
-            document.querySelectorAll('.account-btn').forEach(btn => {
-                btn.classList.remove('active');
+            // Update active account
+            document.querySelectorAll('.account').forEach(account => {
+                account.classList.remove('active');
             });
-            event.target.classList.add('active');
+            event.currentTarget.classList.add('active');
             
-            // Force fresh load (simulate different sessions)
-            iframe.src = 'https://web.whatsapp.com?t=' + Date.now();
+            // Show loading
+            loading.style.display = 'block';
             
-            // Show loading indicator
-            iframe.onload = function() {
-                console.log('WhatsApp loaded for account ' + accountNum);
-            };
+            // Force fresh load with timestamp to prevent caching
+            const timestamp = new Date().getTime();
+            whatsappFrame.src = `https://web.whatsapp.com?t=${timestamp}`;
+            
+            // Update status
+            const accountName = event.currentTarget.querySelector('.account-name').textContent;
+            console.log(`Switched to: ${accountName}`);
+            
+            // Show notification
+            showNotification(`Switched to ${accountName}`);
         }
         
         // Refresh WhatsApp
-        function refreshWhatsApp() {
-            const iframe = document.getElementById('whatsappFrame');
-            iframe.src = iframe.src;
+        function refreshApp() {
+            loading.style.display = 'block';
+            whatsappFrame.src = whatsappFrame.src;
+            showNotification('WhatsApp refreshed');
         }
         
-        // Fullscreen mode
-        function openFullscreen() {
-            const iframe = document.getElementById('whatsappFrame');
-            if (iframe.requestFullscreen) {
-                iframe.requestFullscreen();
-            } else if (iframe.webkitRequestFullscreen) {
-                iframe.webkitRequestFullscreen();
+        // Fullscreen Toggle
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+                showNotification('Entered fullscreen mode (Press ESC to exit)');
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                    showNotification('Exited fullscreen mode');
+                }
             }
+        }
+        
+        // Show Help
+        function showHelp() {
+            alert(`📱 WhatsApp Web Hosted - Quick Help:\n\n1. Scan QR code with your phone\n2. Use sidebar to organize accounts\n3. Keep this tab open for notifications\n4. Refresh if WhatsApp disconnects\n5. Bookmark this page for quick access\n\nShortcuts:\n• F11: Fullscreen\n• Ctrl+R: Refresh\n• Ctrl+D: Bookmark`);
+        }
+        
+        // Notification Function
+        function showNotification(message) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: #075E54;
+                color: white;
+                padding: 12px 20px;
+                border-radius: 8px;
+                z-index: 1000;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            // Add animation
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes fadeOut {
+                    from { opacity: 1; }
+                    to { opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            // Remove after 3 seconds
+            setTimeout(() => {
+                notification.style.animation = 'fadeOut 0.5s ease';
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 500);
+            }, 3000);
         }
         
         // Auto-refresh every 30 minutes to prevent timeout
         setInterval(() => {
             console.log('Auto-refresh to keep session alive');
-            refreshWhatsApp();
-        }, 30 * 60 * 1000);
+            refreshApp();
+        }, 30 * 60 * 1000); // 30 minutes
         
-        // Keyboard shortcuts
+        // Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
-            if (e.ctrlKey && e.key === 'r') {
-                e.preventDefault();
-                refreshWhatsApp();
-            }
+            // F11 for fullscreen
             if (e.key === 'F11') {
                 e.preventDefault();
-                openFullscreen();
+                toggleFullscreen();
+            }
+            // Ctrl+R to refresh
+            if (e.ctrlKey && e.key === 'r') {
+                e.preventDefault();
+                refreshApp();
+            }
+            // Ctrl+D to bookmark
+            if (e.ctrlKey && e.key === 'd') {
+                showNotification('Bookmark this page to save it!');
             }
         });
+        
+        // Initial notification
+        setTimeout(() => {
+            showNotification('📱 WhatsApp Web Hosted Ready! Scan QR code to start.');
+        }, 2000);
     </script>
 </body>
 </html>
